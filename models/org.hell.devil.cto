@@ -22,6 +22,7 @@ asset Proposal identified by proposalId {
   o String proposalId
   --> Human human
   o String favour
+  o String terms
   o ProposalStatus status default = "WAITING_FOR_APPROVAL"
 }
 
