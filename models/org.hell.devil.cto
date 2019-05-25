@@ -22,6 +22,13 @@ asset Proposal identified by proposalId {
   o String proposalId
   --> Human human
   o String favour
+  o ProposalStatus status default = "WAITING_FOR_APPROVAL"
+}
+
+enum ProposalStatus {
+  o WAITING_FOR_APPROVAL
+  o REJECTED
+  o ACCEPTED
 }
 
 asset Deal identified by dealId {
@@ -34,7 +41,7 @@ asset Deal identified by dealId {
   o Boolean isFulfilled default = false
 }
 
-transaction rejectProposal {
+transaction RejectProposal {
   --> Devil devil
   --> Proposal proposal
   o DateTime dateTime
