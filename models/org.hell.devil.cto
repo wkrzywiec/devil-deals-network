@@ -48,13 +48,13 @@ transaction RejectProposal {
   o DateTime dateTime
 }
 
-transaction makeDeal {
+transaction MakeDeal {
   --> Devil devil
   --> Proposal proposal
   o DateTime dateTime
 }
 
-transaction takeSoul {
+transaction TakeSoul {
   --> Devil devil
   --> Deal deal
   --> Soul soul
