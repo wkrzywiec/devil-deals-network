@@ -1,42 +1,86 @@
-/*
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+/**
+ * Access control list of Devil's Deal network.
  */
 
-/**
- * Sample access control list.
- */
-rule EverybodyCanReadEverything {
-    description: "Allow all participants read access to all resources"
-    participant: "org.hell.devil.SampleParticipant"
+ rule DevilReadAndUpdateAccessToOwnProfile {
+    description: "Allow devil to read access to her/his profile info"
+    participant(p): "org.hell.devil.Devil"
+    operation: UPDATE, READ
+    resource(r): "org.hell.devil.Devil"
+    condition: (r.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule DevilCanReadEverything {
+    description: "Allow Devil to read access to all resources"
+    participant: "org.hell.devil.Devil"
     operation: READ
     resource: "org.hell.devil.*"
     action: ALLOW
 }
 
-rule EverybodyCanSubmitTransactions {
-    description: "Allow all participants to submit transactions"
-    participant: "org.hell.devil.SampleParticipant"
-    operation: CREATE
-    resource: "org.hell.devil.SampleTransaction"
+rule DevilCanRejectProposalTransaction {
+    description: "Allow Devil to reject Proposal"
+    participant: "org.hell.devil.Devil"
+    operation: ALL
+    resource: "org.hell.devil.RejectProposal"
     action: ALLOW
 }
 
-rule OwnerHasFullAccessToTheirAssets {
-    description: "Allow all participants full access to their assets"
-    participant(p): "org.hell.devil.SampleParticipant"
+rule DevilMakeDealTransaction {
+    description: "Allow Devil make a Deal with human based on Proposal"
+    participant: "org.hell.devil.Devil"
     operation: ALL
-    resource(r): "org.hell.devil.SampleAsset"
-    condition: (r.owner.getIdentifier() === p.getIdentifier())
+    resource: "org.hell.devil.MakeDeal"
+    action: ALLOW
+}
+
+rule DevilCanModifyProposal {
+    description: "Allow Devil to modify Proposal"
+    participant: "org.hell.devil.Devil"
+    operation: UPDATE
+    resource: "org.hell.devil.Proposal"
+    action: ALLOW
+}
+
+rule DevilCanModifyDeal {
+    description: "Allow Devil to modify Proposal"
+    participant: "org.hell.devil.Devil"
+    operation: ALL
+    resource: "org.hell.devil.Deal"
+    action: ALLOW
+}
+
+rule DevilCanTakeSoulTransaction {
+    description: "Allow Devil to TakeSoul transaction"
+    participant: "org.hell.devil.Devil"
+    operation: ALL
+    resource: "org.hell.devil.TakeSoul"
+    action: ALLOW
+}
+
+rule HumanReadAndUpdateAccessToOwnProfile {
+    description: "Allow human to read access to her/his profile info"
+    participant(p): "org.hell.devil.Human"
+    operation: UPDATE, READ
+    resource(r): "org.hell.devil.Human"
+    condition: (r.getIdentifier() === p.getIdentifier())
+    action: ALLOW
+}
+
+rule HumanReadAccessToDevilAndDeamonsList {
+    description: "Allow human to know devil participant list"
+    participant: "org.hell.devil.Human"
+    operation: READ
+    resource: "org.hell.devil.Devil"
+    action: ALLOW
+}
+
+rule HumanCanCreateProposal {
+    description: "Allow human to make a proposal"
+    participant: "org.hell.devil.Human"
+    operation: CREATE
+    resource: "org.hell.devil.Proposal"
     action: ALLOW
 }
 
