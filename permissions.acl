@@ -7,7 +7,7 @@
     participant(p): "org.hell.devil.Devil"
     operation: UPDATE, READ
     resource(r): "org.hell.devil.Devil"
-    condition: (r.getIdentifier() === p.getIdentifier())
+    condition: (p.getIdentifier() === r.getIdentifier())
     action: ALLOW
 }
 
@@ -21,17 +21,20 @@ rule DevilCanReadEverything {
 
 rule DevilCanRejectProposalTransaction {
     description: "Allow Devil to reject Proposal"
-    participant: "org.hell.devil.Devil"
+    participant(p): "org.hell.devil.Devil"
     operation: ALL
-    resource: "org.hell.devil.RejectProposal"
+    resource(r): "org.hell.devil.RejectProposal"
+    condition: (p.getIdentifier() === r.devil.getIdentifier() 
+                && r.proposal.status === "WAITING_FOR_APPROVAL")
     action: ALLOW
 }
 
 rule DevilMakeDealTransaction {
     description: "Allow Devil make a Deal with human based on Proposal"
-    participant: "org.hell.devil.Devil"
+    participant(p): "org.hell.devil.Devil"
     operation: ALL
-    resource: "org.hell.devil.MakeDeal"
+    resource(r): "org.hell.devil.MakeDeal"
+    condition: (p.getIdentifier() === r.devil.getIdentifier())
     action: ALLOW
 }
 
@@ -53,9 +56,10 @@ rule DevilCanModifyDeal {
 
 rule DevilCanTakeSoulTransaction {
     description: "Allow Devil to TakeSoul transaction"
-    participant: "org.hell.devil.Devil"
+    participant(p): "org.hell.devil.Devil"
     operation: ALL
-    resource: "org.hell.devil.TakeSoul"
+    resource(r): "org.hell.devil.TakeSoul"
+    condition: (p.getIdentifier() === r.devil.getIdentifier())
     action: ALLOW
 }
 
@@ -64,7 +68,7 @@ rule HumanReadAndUpdateAccessToOwnProfile {
     participant(p): "org.hell.devil.Human"
     operation: UPDATE, READ
     resource(r): "org.hell.devil.Human"
-    condition: (r.getIdentifier() === p.getIdentifier())
+    condition: (p.getIdentifier() === r.getIdentifier())
     action: ALLOW
 }
 
@@ -76,11 +80,12 @@ rule HumanReadAccessToDevilAndDeamonsList {
     action: ALLOW
 }
 
-rule HumanCanCreateProposal {
+rule HumanCanCreateAndReadOwnProposal {
     description: "Allow human to make a proposal"
-    participant: "org.hell.devil.Human"
-    operation: CREATE
-    resource: "org.hell.devil.Proposal"
+    participant(p): "org.hell.devil.Human"
+    operation: CREATE, READ
+    resource(r): "org.hell.devil.Proposal"
+    condition: (p.getIdentifier() === r.human.getIdentifier())
     action: ALLOW
 }
 
