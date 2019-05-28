@@ -34,7 +34,8 @@ rule DevilMakeDealTransaction {
     participant(p): "org.hell.devil.Devil"
     operation: ALL
     resource(r): "org.hell.devil.MakeDeal"
-    condition: (p.getIdentifier() === r.devil.getIdentifier())
+    condition: (p.getIdentifier() === r.devil.getIdentifier() 
+              && r.proposal.status === "WAITING_FOR_APPROVAL")
     action: ALLOW
 }
 
