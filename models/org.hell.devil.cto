@@ -42,6 +42,12 @@ asset Deal identified by dealId {
   o Boolean isFulfilled default = false
 }
 
+transaction GiveBirthToHuman {
+  o String humanId
+  o String firstName
+  o String lastName
+}
+
 transaction RejectProposal {
   --> Devil devil
   --> Proposal proposal
